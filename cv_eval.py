@@ -14,14 +14,13 @@ try:
     headers = {"Accept": "application/json", "Origin": "https://emply.ru"}
     fname = sys.argv[1]
     files = [("files",("cv.doc",open(fname, 'rb'),'application/octet-stream'))]
-    print("Uploading cv...")
+    print("Uploading {} ...".format(fname))
     r = requests.post('https://api.emply.ru/v1/parser_demo/parse', headers=headers, files=files)
     file_id = r.json()[0]["id"]
     print("Waiting for cv to parse...")
     for i in range(0, 6):
         r = requests.get('https://api.emply.ru/v1/parser_demo/statuses?ids={}'.format(file_id), headers=headers)
         sj = r.json()
-        print(sj)
         cv_id = sj[0]["cv"].get("id", 0) if sj[0]["cv"] else 0
         if cv_id > 0:
             r = requests.get('https://api.emply.ru/v1/parser_demo/cv_info?cv_id={}'.format(cv_id), headers=headers)
