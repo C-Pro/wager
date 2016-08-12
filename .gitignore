@@ -1,0 +1,8 @@
+tf_files
+*.json
+*.model
+*.model.meta
+*.gz
+*.bz2
+*.7z
+*.*~
